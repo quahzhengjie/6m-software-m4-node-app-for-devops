@@ -15,7 +15,6 @@ jobs:
           npm install
 
   test:
-    resource_class: medium_plus
     docker:
       - image: cimg/node:16.10
     steps:
