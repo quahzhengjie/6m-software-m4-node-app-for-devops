@@ -4,6 +4,7 @@ orbs:
   docker: circleci/docker@2.2.0
 jobs:
   build:
+    resource_class: small
     docker:
       - image: cimg/node:16.10
     steps:
@@ -15,6 +16,7 @@ jobs:
           npm install
 
   test:
+    resource_class: small
     docker:
       - image: cimg/node:16.10
     steps:
