@@ -4,6 +4,7 @@ orbs:
   docker: circleci/docker@2.2.0
 jobs:
   build:
+    resource_class: medium
     docker:
       - image: cimg/node:16.10
     steps:
@@ -15,13 +16,14 @@ jobs:
           npm install
 
   test:
+    resource_class: medium
     docker:
       - image: cimg/node:16.10
     steps:
       - setup_remote_docker:
           version: 20.10.8
       - checkout
-      - run: echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin # Log in to Docker Hub using the environment variables
+      - run: echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
       - run: docker build -t nodeappfordevops .
       - run: docker push nodeappfordevops
       - checkout
