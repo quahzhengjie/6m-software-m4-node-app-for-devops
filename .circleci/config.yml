@@ -20,8 +20,8 @@ jobs:
     steps:
       - checkout
       - run: echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin # Log in to Docker Hub using the environment variables
-      - run: docker build -t YOUR_DOCKER_IMAGE_NAME .
-      - run: docker push YOUR_DOCKER_IMAGE_NAME
+      - run: docker build -t nodeappfordevops .
+      - run: docker push nodeappfordevops
       - checkout
       - node/install-packages:
           pkg-manager: npm
