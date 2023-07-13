@@ -14,6 +14,10 @@ jobs:
       - run: |
           echo "Installing dependencies..."
           npm install
+    filters:
+      branches:
+        only: main
+
   test:
     docker:
       - image: cimg/node:16.10
@@ -24,6 +28,10 @@ jobs:
       - run: |
           echo "Running tests..."
           npm run test
+    filters:
+      branches:
+        only: main
+
   build-and-push:
     executor: docker/docker
     steps:
@@ -32,10 +40,11 @@ jobs:
       - docker/check
       - docker/build:
           image: quahzhengjie/nodeapp
-          tag: 0.1.0
-      - docker/push:
-          image: quahzhengjie/nodeapp
-          tag: 0.1.0
+          tag: ${CIRCLE_TAG}
+    filters:
+      tags:
+        only: /^\d+\.\d+\.\d+$/
+
   deploy:
     docker:
         - image: cimg/node:16.10
@@ -49,6 +58,9 @@ jobs:
                 heroku container:login
                 heroku container:push web -a quahzhengjie-su-devops
                 heroku container:release web -a quahzhengjie-su-devops
+    filters:
+      tags:
+        only: /^\d+\.\d+\.\d+$/
 
 workflows:
   simple_workflow:
