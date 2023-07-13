@@ -30,10 +30,10 @@ jobs:
       - checkout
       - docker/check
       - docker/build:
-          image: terencegaffudsu/education-space
+          image: quahzhengjie/nodeapp
           tag: 0.1.0
       - docker/push:
-          image: terencegaffudsu/education-space
+          image: quahzhengjie/nodeapp
           tag: 0.1.0
 
 workflows:
