@@ -28,12 +28,12 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
-      - run: echo "${DOCKERHUB_PASSWORD}" | docker login -u "${DOCKERHUB_USERNAME}" --password-stdin
+      - docker/check
       - docker/build:
-          image: quahzhengjie/nodeapp
+          image: terencegaffudsu/education-space
           tag: 0.1.0
       - docker/push:
-          image: quahzhengjie/nodeapp
+          image: terencegaffudsu/education-space
           tag: 0.1.0
 
 workflows:
