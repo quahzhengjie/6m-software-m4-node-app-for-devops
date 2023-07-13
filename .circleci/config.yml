@@ -3,6 +3,7 @@ orbs:
   node: circleci/node@5.0.1
   docker: circleci/docker@2.1.4
   heroku: circleci/heroku@2.0.0
+
 jobs:
   build:
     docker:
@@ -14,9 +15,6 @@ jobs:
       - run: |
           echo "Installing dependencies..."
           npm install
-    filters:
-      branches:
-        only: main
 
   test:
     docker:
@@ -28,9 +26,6 @@ jobs:
       - run: |
           echo "Running tests..."
           npm run test
-    filters:
-      branches:
-        only: main
 
   build-and-push:
     executor: docker/docker
@@ -41,9 +36,6 @@ jobs:
       - docker/build:
           image: quahzhengjie/nodeapp
           tag: ${CIRCLE_TAG}
-    filters:
-      tags:
-        only: /^\d+\.\d+\.\d+$/
 
   deploy:
     docker:
@@ -58,20 +50,25 @@ jobs:
                 heroku container:login
                 heroku container:push web -a quahzhengjie-su-devops
                 heroku container:release web -a quahzhengjie-su-devops
-    filters:
-      tags:
-        only: /^\d+\.\d+\.\d+$/
 
 workflows:
-  simple_workflow:
+  version: 2
+  build-and-deploy:
     jobs:
-      - build
+      - build:
+          filters:
+            branches:
+              only: main
       - test:
-          requires:
-            - build
+          filters:
+            branches:
+              only: main
       - build-and-push:
           requires:
             - test
       - deploy:
           requires:
             - build-and-push
+          filters:
+            tags:
+              only: /^\d+\.\d+\.\d+$/
