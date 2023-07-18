@@ -34,6 +34,7 @@ jobs:
         - setup_remote_docker      
         - docker/check
         - run: docker pull $IMAGE_NAME
+        - run: npm install -g snyk
         - run:
             name: Snyk test
             command: |
