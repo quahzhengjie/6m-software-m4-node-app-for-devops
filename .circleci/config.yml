@@ -34,8 +34,10 @@ jobs:
         - setup_remote_docker      
         - docker/check
         - run: docker pull $IMAGE_NAME
-        - snyk/scan: 
-            docker-image-name: $IMAGE_NAME
+        - run:
+            name: Snyk test
+            command: |
+              snyk test --docker $IMAGE_NAME --severity-threshold=high
 
 workflows:
   simple_workflow:
