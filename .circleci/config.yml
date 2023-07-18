@@ -37,7 +37,7 @@ jobs:
         - run:
             name: Snyk test
             command: |
-              snyk test --docker $IMAGE_NAME --severity-threshold=high
+              snyk test --docker $IMAGE_NAME --severity-threshold=medium
 
 workflows:
   simple_workflow:
